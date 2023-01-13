@@ -6,12 +6,8 @@ interface UserData {
   age?: number;
 }
 
-type Callback = () => void;
-
 export class User {
-  events: { [key: string]: Callback[] } = {};
-
-  constructor(private data: UserData) {} // object to store information from parameter
+  constructor(private data: UserData) { } // object to store information from parameter
 
   // gets a single piece of info about this user
   get(propName: string): number | string {
@@ -20,26 +16,9 @@ export class User {
 
   // changes info about this user (name, age)
   set(update: UserData): void {
+    console.log(update);
     /* Object.assign(this.data, update); */
     this.data = { ...this.data, ...update };
-  }
-
-  // registers an event handler with this object so other parts of the app
-  // know when something changes
-  on(eventName: string, callback: Callback): void {
-    const handlers = this.events[eventName] || [];
-    handlers.push(callback);
-    this.events[eventName] = handlers;
-  }
-
-  // triggers an event to tell other parts of the app that something has changed
-  trigger(eventName: string): void {
-    const handlers = this.events[eventName];
-    if (!handlers || handlers.length === 0) return;
-
-    handlers.forEach((cb) => {
-      cb();
-    });
   }
 
   // fetches some data from the server about a particular user
@@ -52,5 +31,13 @@ export class User {
   }
 
   // saves some data about this user to the server
-  /* save(): Promise */
+  save(): void {
+    const id = this.get('id');
+
+    if (id) {
+      axios.put(`http://localhost:3000/users/${id}`, this.data);
+    } else {
+      axios.post('http://localhost:3000/users', this.data);
+    }
+  }
 }
