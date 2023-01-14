@@ -1,25 +1,24 @@
-import axios, { AxiosResponse } from 'axios';
-import { UserData } from './User';
+import axios, { AxiosPromise } from 'axios';
 
-export class Sync {
+interface HasId {
+  id?: number;
+}
+
+export class Sync<T extends HasId> {
   constructor(public rootUrl: string) {}
   // fetches some data from the server about a particular user
-  fetch(): void {
-    axios
-      .get(`${this.rootUrl}/${this.get('id')}`)
-      .then((res: AxiosResponse): void => {
-        this.set(res.data);
-      });
+  fetch(id: number): AxiosPromise {
+    return axios.get(`${this.rootUrl}/${id}`);
   }
 
   // saves some data about this user to the server
-  save(data: UserData): void {
-    const id = data.id;
+  save(data: T): AxiosPromise {
+    const { id } = data;
 
     if (id) {
-      axios.put(`${this.rootUrl}/${id}`, data);
+      return axios.put(`${this.rootUrl}/${id}`, data);
     } else {
-      axios.post(this.rootUrl, data);
+      return axios.post(this.rootUrl, data);
     }
   }
 }

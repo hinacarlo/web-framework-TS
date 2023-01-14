@@ -1,4 +1,5 @@
 import { Eventing } from './Eventing';
+import { Sync } from './Sync';
 
 export interface UserData {
   id?: number;
@@ -8,6 +9,9 @@ export interface UserData {
 
 export class User {
   public events: Eventing = new Eventing();
+  public sync: Sync<UserData> = new Sync<UserData>(
+    'http://localhost:3000/users'
+  );
 
   constructor(private data: UserData) {} // object to store information from parameter
 
