@@ -2,15 +2,10 @@ import { User } from "./models/User";
 
 const user = new User({ name: "Carlo", age: 0 });
 
-// quick reminder on accessors
+console.log(user.get("name"));
 
-class Person {
-  constructor(public firstName: string, public lastName: string) {}
+user.on("change", () => {
+  console.log("User was changed");
+});
 
-  get fullName(): string {
-    return `${this.firstName} ${this.lastName}`;
-  }
-}
-
-const carlo = new Person("carlo", "hina");
-console.log(carlo.fullName);
+user.trigger("change");

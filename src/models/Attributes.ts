@@ -7,9 +7,9 @@ export class Attributes<T> {
   // because keys in JS are just string, we can type string in TS.
   // get<K extends keyof T>(propName: K): T[K] -- this line can be
   // get(propName: T): string | number
-  get<K extends keyof T>(propName: K): T[K] {
+  get = <K extends keyof T>(propName: K): T[K] => {
     return this.data[propName];
-  }
+  };
 
   // changes info about this user (name, age)
   set(update: T): void {

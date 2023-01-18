@@ -18,4 +18,18 @@ export class User {
   constructor(attrs: UserData) {
     this.attributes = new Attributes<UserData>(attrs);
   }
+
+  // pass through methods start
+  get on() {
+    return this.events.on;
+  }
+
+  get trigger() {
+    return this.events.trigger;
+  }
+
+  get get() {
+    return this.attributes.get;
+  }
+  // end
 }
