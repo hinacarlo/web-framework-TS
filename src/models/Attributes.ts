@@ -1,5 +1,3 @@
-import { UserData } from "./User";
-
 export class Attributes<T> {
   constructor(private data: T) {} // object to store information from parameter
 
@@ -16,5 +14,9 @@ export class Attributes<T> {
     console.log(update);
     /* Object.assign(this.data, update); */
     this.data = { ...this.data, ...update };
+  }
+
+  getAll(): T {
+    return this.data;
   }
 }
